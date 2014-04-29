@@ -20,4 +20,8 @@ public class MemberDao {
         em.persist(a);
         em.persist(m);
     }
+    
+    public Memb findById(Long id){
+        return em.find(Memb.class, id);
+    }
 }

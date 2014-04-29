@@ -3,6 +3,7 @@ package service;
 import dao.BookDao;
 import entities.Book;
 import entities.Category;
+import entities.Memb;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,5 +32,13 @@ public class BookService {
     
     public List<Book> searchByCriteria(String criteria, String value){
         return bookdao.searchByCriteria(criteria, value);
+    }
+    
+    public Book findById(Long id){
+        return bookdao.findById(id);
+    }
+    
+    public void rentBook(Memb m, Book b){
+        bookdao.rentBook(m, b);
     }
 }

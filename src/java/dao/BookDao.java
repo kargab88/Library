@@ -2,6 +2,7 @@ package dao;
 
 import entities.Book;
 import entities.Category;
+import entities.Memb;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -17,51 +18,65 @@ import javax.persistence.criteria.Root;
  * @author Karácsonyi Gábor
  */
 @Stateless
-public class BookDao{
-    
+public class BookDao {
+
     @PersistenceContext
     EntityManager em;
-    
-    public List<Category> getCategories(){
-        CriteriaBuilder cb  = em.getCriteriaBuilder();
+
+    public List<Category> getCategories() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Category> cq = cb.createQuery(Category.class);
         Root<Category> root = cq.from(Category.class);
         cq.select(root);
-        
+
         return em.createQuery(cq).getResultList();
     }
-    
-    public void persist(Book b){
+
+    public void persist(Book b) {
         em.persist(b);
     }
-    
-    public Category findCategoryById(Long id){
+
+    public Book findById(Long id) {
+        return em.find(Book.class, id);
+    }
+
+    public Category findCategoryById(Long id) {
         return em.find(Category.class, id);
     }
-    
-    public void persistCategory(Category c){
+
+    public void persistCategory(Category c) {
         em.persist(c);
     }
-    
-    public List<Book> searchByCriteria(String criteria, String value){
-        if(criteria.equals("Title")){
-            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.title=:title",Book.class);
+
+    public List<Book> searchByCriteria(String criteria, String value) {
+        if (criteria.equals("Title")) {
+            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.title=:title", Book.class);
             searchQuery.setParameter("title", value);
-            List<Book> books= searchQuery.getResultList();
+            List<Book> books = searchQuery.getResultList();
             return books;
         }
-        if(criteria.equals("Author")){
-            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.author=:author",Book.class);
+        if (criteria.equals("Author")) {
+            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.author=:author", Book.class);
             searchQuery.setParameter("author", value);
             List<Book> books = searchQuery.getResultList();
             return books;
         }
-        if(criteria.equals("Category")){
-            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.category.name = :name",Book.class);
+        if (criteria.equals("Category")) {
+            TypedQuery<Book> searchQuery = em.createQuery("Select b from Book b WHERE b.category.name = :name", Book.class);
             searchQuery.setParameter("name", value);
             List<Book> books = searchQuery.getResultList();
             return books;
         }
         return Collections.EMPTY_LIST;
+    }
+
+    public void rentBook(Memb m, Book b) {
+        m = em.find(Memb.class, m.getId());
+        b = em.find(Book.class, b.getIsbn());
+        int quantity = b.getRemain() - 1;
+        b.setRemain(quantity);
+        em.merge(b);
+        m.getRentedBooks().add(b);
+        em.merge(m);
     }
 }

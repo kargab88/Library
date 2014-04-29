@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>Rent book</title>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <h:form>
+            <h:panelGrid columns="2">
+                Search book:<br />
+                <h:inputText value="#{rentBean.bookId}"/>
+                Search member:<br />
+                <h:inputText value="#{rentBean.memberId}"/>
+                <h:commandButton value="Search" action="#{rentBean.search()}"/>
+            </h:panelGrid>
+            <h:form rendered="#{rentBean.renderForm}">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Title:"/>
+                    <h:outputText value="#{rentBean.book.title}"/>
+
+                    <h:outputText value="Author:"/>
+                    <h:outputText value="#{rentBean.book.author}"/>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <h:outputText value="Member name:"/>
+                    <h:outputText value="#{rentBean.member.name}"/>
+
+                    <h:outputText value="Zip code:"/>
+                    <h:outputText value="#{rentBean.member.address.zip}"/>
+
+                    <h:outputText value="City:"/>
+                    <h:outputText value="#{rentBean.member.address.city}"/>
+
+                    <h:outputText value="Street:"/>
+                    <h:outputText value="#{rentBean.member.address.street}"/>
+                </h:panelGrid>
+                <h:commandButton value="Rent" action="#{rentBean.rentBook()}"/>
+            
+            </h:form>
+            <h:commandButton value="Back" action="index"/>
+        </h:form>
+    </body>
+</html>

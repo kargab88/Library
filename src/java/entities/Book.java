@@ -24,8 +24,6 @@ public class Book implements Serializable{
     private Category category;
     private int count;
     private int remain;
-    @ManyToMany(mappedBy = "rentedBooks")
-    private List<Memb> membs;
 
     public Book() {
     }
@@ -86,13 +84,7 @@ public class Book implements Serializable{
         this.category = category;
     }
 
-    public List<Memb> getMembs() {
-        return membs;
-    }
-
-    public void setMembs(List<Memb> membs) {
-        this.membs = membs;
-    }
+    
     
     
     

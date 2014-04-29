@@ -19,4 +19,8 @@ public class MemberService {
     public void register(Memb m,Address a){
         memberdao.register(m,a);
     }
+    
+    public Memb findById(Long id){
+        return memberdao.findById(id);
+    }
 }
