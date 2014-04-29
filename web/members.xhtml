@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>Library Members</title>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <h:form>
+            <h:commandButton value="New Member" action="#{addMemberBean.renderAddForm()}"
+                             />
+            <h:form rendered="#{addMemberBean.addForm}">
+                <h:panelGrid columns="2" >
+
+                    <h:outputText value="Name:" />
+                    <h:inputText value="#{addMemberBean.name}"/>
+
+                    <h:outputText value="Zip code:" />
+                    <h:inputText value="#{addMemberBean.zip}"/>
+
+                    <h:outputText value="City:" />
+                    <h:inputText value="#{addMemberBean.city}"/>
+
+                    <h:outputText value="Street:" />
+                    <h:inputText value="#{addMemberBean.street}"/>
+
+                    <h:commandButton value="Add" action="#{addMemberBean.register()}" />
+                </h:panelGrid>
+            </h:form>
+        </h:form>
+        <h:form>
+            <h:commandButton value="Back" action="index"/>
+        </h:form>
+    </body>
+</html>
